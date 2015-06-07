@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jun  6 18:22:04 2015
+
+@author: lateish
+"""
+
+# *** OUTSTANDING ISSUE ***
+# I want to extract the text from forecast_time_rep and forecast, 
+# and store them as pairs in a list so that the weather condition
+# is matched with the time of day. I'm unsure of how to effectively 
+# separate out the useful text, especially as the page updates through time.
+# I struggled to extract the raw data from the web page, so it is messy, 
+# hence the re.sub() function on line ~50. 
+
+import urllib
+from bs4 import BeautifulSoup
+import re
+
+# Dictionary containing station names and unique ID numbers 
+station_id_dictionary = {'Boise Weather Forecast' :'http://forecast.weather.gov/MapClick.php?textField1=43.61349626100048&textField2=-116.20344808999971#.VXOOFWTBzGc'} 
+# Root url adress for weather output
+#url_boise_weather_forecast = 'http://forecast.weather.gov/MapClick.php?textField1=43.61349626100048&textField2=-116.20344808999971#.VXOOFWTBzGc'
+
+url_boise_weather_forecast = station_id_dictionary['Boise Weather Forecast'] 
+url = url_boise_weather_forecast
+i = 0
+regex = 'title=(.+?)class='
+pattern = re.compile(regex)
+
+htmlfile = urllib.request.urlopen(url)
+htmltext = htmlfile.read()
+htmltext = str(htmltext)
+forecast = re.findall(pattern,htmltext)
+print(forecast[1:10])
+
+print('\n')
+url = url_boise_weather_forecast
+i = 0
+regex_time = '<p class="txt-ctr-caps">(.+?)<br>(.+?)</p>'
+pattern_time = re.compile(regex_time)
+htmlfile_time = urllib.request.urlopen(url)
+htmltext_time = htmlfile_time.read()
+htmltext_time = str(htmltext_time)
+forecast_time = re.findall(pattern_time,htmltext_time)
+forecast_time_rep = re.sub('<br>', '', repr(forecast_time))
+print(forecast_time_rep)
