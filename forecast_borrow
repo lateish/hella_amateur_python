@@ -11,7 +11,7 @@ Created on Sat Jun  6 18:22:04 2015
 # is matched with the time of day. I'm unsure of how to effectively 
 # separate out the useful text, especially as the page updates through time.
 # I struggled to extract the raw data from the web page, so it is messy, 
-# hence the re.sub() function on line ~50. 
+# hence the re.sub() function on line ~46. 
 
 import urllib
 from bs4 import BeautifulSoup
